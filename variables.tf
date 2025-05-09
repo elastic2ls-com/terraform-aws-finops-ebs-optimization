@@ -32,3 +32,21 @@ variable "use_fake_data" {
   type        = bool
   default     = false
 }
+
+variable "enable_dashboard" {
+  description = "Enable creation of a CloudWatch dashboard"
+  type        = bool
+  default     = true
+}
+
+variable "cost_center" {
+  description = "Cost center tag for all resources"
+  type        = string
+  default     = "FinOps"
+}
+
+variable "category_name" {
+  description = "Name of the Cost Category"
+  type        = string
+  default     = "EBS-Volumes"
+}

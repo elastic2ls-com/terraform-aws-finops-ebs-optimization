@@ -23,13 +23,27 @@ This module is compatible with both Terraform (>=1.4) and OpenTofu (>=1.4).
 - Monitor **BurstBalance**, **ReadOps**, and **WriteOps** per EBS volume.
 - Dynamically set alarm thresholds per volume type (gp2, gp3, io1, io2, st1, sc1).
 - Automatically exclude irrelevant alarms (e.g., no BurstBalance on st1/sc1).
+- Creates a Cost Category in AWS Cost Explorer to group and track all EBS-related costs.
 - Filter volumes by tags (e.g., `Environment = Production`).
 - Send alerts to SNS with configurable email subscription.
+- Adds CloudWatch Composite Alarms to combine ReadOps, WriteOps, and BurstBalance alerts per EBS volume.
+- **Optional CloudWatch dashboard** with dynamic widgets per volume.
 - Includes example project and CI workflow with security checks.
 
 ---
 
 ## Usage
+
+### Least Privilege IAM Policy
+
+Before applying this module, ensure the IAM user or role has at least the permissions defined in [`iam-policy-minimal.json`](./iam-policy-minimal.json).
+
+These include:
+- CloudWatch: alarm management, metrics read access
+- SNS: topic management, publish/subscribe
+
+This avoids running Terraform with overly broad permissions.
+
 
 ### Real Mode (default)
 
@@ -42,6 +56,11 @@ module "ebs_optimization" {
   sns_topic_name   = "ebs-optimization-alerts"
   email_endpoint   = "finops-team@example.com"
 }
+```
+
+### Optional CloudWatch Dashboard
+```hcl
+  enable_dashboard = true
 ```
 Run:
 ```bash
@@ -86,6 +105,24 @@ terraform apply
 | sns_topic_name    | Name of the SNS topic for alerts   | string | "ebs-alerts-topic" |
 | email_endpoint    | Email address for SNS subscription | string | n/a (required)     |
 |use_fake_data	    |Enable fake/test mode (no AWS calls)| 	bool  | false              |
+|enable_dashboard	|Enable CloudWatch dashboard creation|	bool	|true |
+---
+### Tagging
+
+This module automatically applies consistent tags to all resources (SNS topics, CloudWatch alarms, dashboards) it creates, making it easier to track costs, ownership, and environments.
+
+The following tags are applied:
+
+| Tag         | Description                                                                                                                                      |
+|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Environment` | Taken from `var.tag_filter_value`. Ensures the monitoring resources are labeled consistently with the EBS volumes they are watching (e.g., `Production`). |
+| `CostCenter`  | Taken from `var.cost_center`. Allows cost allocation and reporting by project, team, or budget owner (default: `FinOps`).                          |
+| `ManagedBy`   | Fixed tag (`terraform-aws-ebs-optimization`). Indicates the resources are managed by this Terraform module, improving transparency and auditability. |
+
+**Important:**
+- The `Environment` tag does not dynamically read the EBS volume’s tags.
+- It uses the value you pass as `tag_filter_value` in the module inputs.
+- For example, if you filter volumes with `tag_filter_value = "Production"`, the same value is applied as the `Environment` tag on the monitoring resources.
 
 ---
 

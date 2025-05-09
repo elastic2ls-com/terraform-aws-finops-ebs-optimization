@@ -7,4 +7,5 @@ module "ebs_optimization" {
   sns_topic_name   = "ebs-optimization-alerts"
   email_endpoint   = "finops-team@example.com"
   use_fake_data    = true
+  enable_dashboard = true
 }
