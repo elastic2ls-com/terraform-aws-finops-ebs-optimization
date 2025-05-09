@@ -13,7 +13,7 @@ data "aws_ebs_volume" "volume_details" {
     values = [each.value]
   }
   filter {
-    name = "volume_type"
+    name   = "volume_type"
     values = [each.value]
   }
 }
@@ -90,10 +90,10 @@ resource "aws_cloudwatch_metric_alarm" "read_ops_low" {
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = 1
   metric_name         = "VolumeReadOps"
-  namespace          = "AWS/EBS"
-  period             = 300
-  statistic          = "Average"
-  threshold         = local.alarm_thresholds[each.value.volume_type].read_ops
+  namespace           = "AWS/EBS"
+  period              = 300
+  statistic           = "Average"
+  threshold           = local.alarm_thresholds[each.value.volume_type].read_ops
   dimensions = {
     VolumeId = each.key
   }
@@ -107,10 +107,10 @@ resource "aws_cloudwatch_metric_alarm" "write_ops_low" {
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = 1
   metric_name         = "VolumeWriteOps"
-  namespace          = "AWS/EBS"
-  period             = 300
-  statistic          = "Average"
-  threshold         = local.alarm_thresholds[each.value.volume_type].write_ops
+  namespace           = "AWS/EBS"
+  period              = 300
+  statistic           = "Average"
+  threshold           = local.alarm_thresholds[each.value.volume_type].write_ops
   dimensions = {
     VolumeId = each.key
   }
