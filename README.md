@@ -10,6 +10,10 @@
 
 Terraform module to monitor and optimize EBS volumes across an AWS account with dynamic CloudWatch alarms for cost-efficient storage.
 
+Supports both:
+- **Real mode** → reads live AWS EBS volumes.
+- **Fake mode** → uses local test data (for CI/CD, local testing, or demos).
+
 This module is compatible with both Terraform (>=1.4) and OpenTofu (>=1.4).
 
 ---
@@ -27,6 +31,8 @@ This module is compatible with both Terraform (>=1.4) and OpenTofu (>=1.4).
 
 ## Usage
 
+### Real Mode (default)
+
 ```hcl
 module "ebs_optimization" {
   source            = "github.com/elastic2ls-com/terraform-aws-ebs-optimization"
@@ -35,6 +41,25 @@ module "ebs_optimization" {
   tag_filter_value = "Production"
   sns_topic_name   = "ebs-optimization-alerts"
   email_endpoint   = "finops-team@example.com"
+}
+```
+Run:
+```bash
+terraform init
+terraform plan
+terraform apply
+```
+
+### Fake Mode (for testing)
+```hcl
+    module "ebs_optimization" {
+    source            = "../../"
+    aws_region        = "eu-central-1"
+    tag_filter_key    = "Environment"
+    tag_filter_value  = "Production"
+    sns_topic_name    = "ebs-optimization-alerts"
+    email_endpoint    = "finops-team@example.com"
+    use_fake_data     = true
 }
 ```
 ## Security Best Practices
@@ -53,13 +78,14 @@ module "ebs_optimization" {
 
 ## Variables
 
-| Name               | Description                         | Type    | Default             |
-|---------------------|-------------------------------------|---------|---------------------|
-| aws_region         | AWS region                         | string  | "eu-central-1"     |
-| tag_filter_key     | Tag key to filter EBS volumes      | string  | "Environment"      |
-| tag_filter_value   | Tag value to filter EBS volumes    | string  | "Production"       |
-| sns_topic_name     | Name of the SNS topic for alerts   | string  | "ebs-alerts-topic" |
-| email_endpoint     | Email address for SNS subscription | string  | n/a (required)     |
+| Name              | Description                         | Type   | Default            |
+|--------------------|-------------------------------------|--------|--------------------|
+| aws_region        | AWS region                         | string | "eu-central-1"     |
+| tag_filter_key    | Tag key to filter EBS volumes      | string | "Environment"      |
+| tag_filter_value  | Tag value to filter EBS volumes    | string | "Production"       |
+| sns_topic_name    | Name of the SNS topic for alerts   | string | "ebs-alerts-topic" |
+| email_endpoint    | Email address for SNS subscription | string | n/a (required)     |
+|use_fake_data	    |Enable fake/test mode (no AWS calls)| 	bool  | false              |
 
 ---
 

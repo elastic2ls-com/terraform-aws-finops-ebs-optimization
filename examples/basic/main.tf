@@ -6,4 +6,5 @@ module "ebs_optimization" {
   tag_filter_value = "Production"
   sns_topic_name   = "ebs-optimization-alerts"
   email_endpoint   = "finops-team@example.com"
+  use_fake_data     = true
 }

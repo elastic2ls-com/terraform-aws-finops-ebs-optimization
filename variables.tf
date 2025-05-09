@@ -26,3 +26,9 @@ variable "email_endpoint" {
   description = "Email address to subscribe to the SNS topic"
   type        = string
 }
+
+variable "use_fake_data" {
+  description = "Enable fake data mode for testing"
+  type        = bool
+  default     = false
+}

@@ -4,6 +4,7 @@ output "sns_topic_arn" {
 }
 
 output "filtered_volume_ids" {
-  description = "List of EBS volume IDs being monitored"
-  value       = local.filtered_volumes
+  value = var.use_fake_data ? [] : data.aws_ebs_volumes.all_volumes[0].ids
 }
+
+
