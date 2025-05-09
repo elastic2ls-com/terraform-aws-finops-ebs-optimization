@@ -1,4 +1,4 @@
-[![Terraform CI](https://github.com/elastic2ls-com/terraform-aws-ebs-optimization/actions/workflows/terraform.yml/badge.svg)](https://github.com/elastic2ls-com/terraform-aws-ebs-optimization/actions)
+[![Terraform CI](https://github.com/elastic2ls-com/terraform-aws-finops-costreview-access/actions/workflows/terraform.yml/badge.svg)](https://github.com/elastic2ls-com/terraform-aws-finops-costreview-access/actions)
 ![License](https://img.shields.io/badge/license-MIT-brightgreen?logo=mit)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg?logo=git)
 [![Sponsor](https://img.shields.io/badge/sponsors-AlexanderWiechert-blue.svg?logo=github-sponsors)](https://github.com/sponsors/AlexanderWiechert/)
