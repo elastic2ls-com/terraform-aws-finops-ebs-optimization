@@ -56,7 +56,7 @@ resource "aws_cloudwatch_composite_alarm" "ebs_composite_alarm" {
   alarm_rule = join(" OR ", compact([
     "ALARM(${aws_cloudwatch_metric_alarm.read_ops_low[each.key].alarm_name})",
     "ALARM(${aws_cloudwatch_metric_alarm.write_ops_low[each.key].alarm_name})",
-      contains(keys(local.ssd_volumes), each.key) ? "ALARM(${aws_cloudwatch_metric_alarm.burst_balance_low[each.key].alarm_name})" : ""
+    contains(keys(local.ssd_volumes), each.key) ? "ALARM(${aws_cloudwatch_metric_alarm.burst_balance_low[each.key].alarm_name})" : ""
   ]))
 
   alarm_description = "Composite alarm for EBS volume ${each.key}"

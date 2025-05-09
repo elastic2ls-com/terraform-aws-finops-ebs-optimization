@@ -25,31 +25,31 @@ resource "aws_s3_bucket_policy" "cur_bucket_policy" {
       Principal = {
         Service = "billingreports.amazonaws.com"
       }
-      Action = "s3:GetBucketAcl"
+      Action   = "s3:GetBucketAcl"
       Resource = aws_s3_bucket.cur_bucket.arn
-    },
+      },
       {
         Sid    = "AWSBillingPutObject"
         Effect = "Allow"
         Principal = {
           Service = "billingreports.amazonaws.com"
         }
-        Action = "s3:PutObject"
+        Action   = "s3:PutObject"
         Resource = "${aws_s3_bucket.cur_bucket.arn}/*"
-      }]
+    }]
   })
 }
 
 resource "aws_athena_database" "cur_database" {
-  name          = "cur_database"
-  comment       = "Athena database for CUR analysis"
-  bucket        = aws_s3_bucket.cur_bucket.id
+  name    = "cur_database"
+  comment = "Athena database for CUR analysis"
+  bucket  = aws_s3_bucket.cur_bucket.id
 }
 
 resource "aws_athena_data_catalog" "cur_catalog" {
-  name = "AwsDataCatalog"
+  name        = "AwsDataCatalog"
   description = "Example Athena data catalog"
-  type = "GLUE"
+  type        = "GLUE"
   parameters = {
     "catalog-id" = aws_glue_catalog_table.cur_table.id
   }
@@ -79,11 +79,11 @@ resource "aws_iam_role" "glue_crawler_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect    = "Allow",
+      Effect = "Allow",
       Principal = {
         Service = "glue.amazonaws.com"
       },
-      Action    = "sts:AssumeRole"
+      Action = "sts:AssumeRole"
     }]
   })
 }
@@ -95,8 +95,8 @@ resource "aws_iam_role_policy" "glue_crawler_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject",
@@ -108,15 +108,15 @@ resource "aws_iam_role_policy" "glue_crawler_policy" {
         ]
       },
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "glue:*"
         ],
         Resource = "*"
       },
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents"
