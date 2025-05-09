@@ -28,8 +28,8 @@ This module is compatible with both Terraform (>=1.4) and OpenTofu (>=1.4).
 - Send alerts to SNS with configurable email subscription.
 - Adds CloudWatch Composite Alarms to combine ReadOps, WriteOps, and BurstBalance alerts per EBS volume.
 - **Optional CloudWatch dashboard** with dynamic widgets per volume.
+- Creates Athena Named Queries for EBS cost and usage analysis (requires CUR + Glue + Athena setup).
 - Includes example project and CI workflow with security checks.
-
 ---
 
 ## Usage
@@ -134,7 +134,26 @@ The following tags are applied:
 | filtered_volume_ids  | List of monitored EBS volume IDs |
 
 ---
+## Athena Named Queries
 
+This module automatically creates useful Athena Named Queries for analyzing EBS costs and usage from the AWS Cost and Usage Report (CUR). These queries help FinOps teams, engineers, and analysts quickly identify optimization opportunities.
+
+The following queries are included:
+
+| Query Name             | Description                                                |
+|------------------------|-----------------------------------------------------------|
+| `ebs_cost_by_volumetype` | Summarizes EBS costs by volume type (`gp2`, `gp3`, etc.) |
+| `ebs_cost_by_volume`     | Shows the top 20 most expensive EBS volumes             |
+| `ebs_monthly_trend`      | Displays monthly cost trends over time                 |
+| `ebs_cost_by_usagetype` | Breaks down costs by usage type (e.g., volumes, snapshots) |
+| `ebs_cost_by_costcenter` | Aggregates costs by CostCenter tag (if CUR tagging is enabled) |
+
+These Named Queries appear in the **AWS Athena console** under Saved Queries and can be executed directly or integrated into reporting and dashboard tools.
+
+### Using Athena Named Queries
+After deployment, go to the AWS Athena console → Saved Queries → select and run the EBS cost analysis queries.
+
+---
 ## Requirements
 
 - Terraform ≥ 1.4
