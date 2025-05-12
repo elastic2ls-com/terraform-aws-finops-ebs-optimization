@@ -3,7 +3,7 @@
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg?logo=git)
 [![Sponsor](https://img.shields.io/badge/sponsors-AlexanderWiechert-blue.svg?logo=github-sponsors)](https://github.com/sponsors/AlexanderWiechert/)
 [![Contact](https://img.shields.io/badge/website-elastic2ls.com-blue.svg?logo=google-chrome)](https://www.elastic2ls.com/)
-[![Terraform Registry](https://img.shields.io/badge/download-blue.svg?logo=terraform&style=social)](https://registry.terraform.io/modules/elastic2ls-com/ebs-optimization/aws/latest)
+[![Terraform Registry](https://img.shields.io/badge/download-blue.svg?logo=terraform&style=social)](https://registry.terraform.io/modules/elastic2ls-com/finops-ebs-optimization/aws/latest)
 ![OpenTofu Compatible](https://img.shields.io/badge/OpenTofu-Compatible-4E9A06?logo=opentofu)
 
 # terraform-aws-ebs-optimization
