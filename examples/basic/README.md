@@ -16,3 +16,4 @@ module "ebs_optimization" {
   email_endpoint    = "finops-team@example.com"
   use_fake_data     = true
 }
+```
